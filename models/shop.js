@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
 const shopSchema = new Schema({
@@ -9,8 +9,15 @@ const shopSchema = new Schema({
         lgn:Number
     },
   },{
+    toJSON:{virtuals:true},
     timestamps:true,
     collection:"shops"});
+
+    shopSchema.virtual('menus', {
+      ref:'Menu',
+      localField:'_id',
+      foreignField:'shop',
+    })
 
 const shop = mongoose.model("Shop",shopSchema)
 

@@ -19,10 +19,21 @@ exports.index = async (req, res, next) => {
 };
 
 exports.menu = async (req,res,next) =>{
+  //const menu = await Menu.find().select('+name -price');
   const menu = await Menu.find();
+  //const menu = await Menu.find().populate('shop');
 
   res.status(200).json({
     data: menu,
   });
 
+};
+
+exports.show = async (req, res, next) => {
+  const { id } = req.params;
+  const shop = await Shop.findOne({_id: id}).populate('menus')
+
+  res.status(200).json({
+    data: shop,
+  });
 };

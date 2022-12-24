@@ -10,7 +10,6 @@ var usersRouter = require('./routes/users');
 var companyrouter = require('./routes/company')
 var StaffRouter = require('./routes/staff')
 var shopRouter = require('./routes/shop')
-var menuRouter = require('./routes/menu')
 
 
 var app = express();
@@ -26,7 +25,6 @@ app.use('/users', usersRouter);
 app.use('/company', companyrouter)
 app.use('/staff',StaffRouter)
 app.use('/shop',shopRouter)
-app.use('/menu',menuRouter)
 
 
 module.exports = app;

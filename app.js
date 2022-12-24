@@ -8,7 +8,10 @@ mongoose.connect('mongodb+srv://EarthChaotic:earth2102@2013110164-jirapon.z3xaaf
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var companyrouter = require('./routes/company')
-const StaffRouter = require('./routes/staff')
+var StaffRouter = require('./routes/staff')
+var shopRouter = require('./routes/shop')
+var menuRouter = require('./routes/menu')
+
 
 var app = express();
 
@@ -22,5 +25,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/company', companyrouter)
 app.use('/staff',StaffRouter)
+app.use('/shop',shopRouter)
+app.use('/menu',menuRouter)
+
 
 module.exports = app;

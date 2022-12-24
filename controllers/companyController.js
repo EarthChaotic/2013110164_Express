@@ -1,38 +1,26 @@
-const Shop = require("../models/shop");
+const Company = require("../models/companys");
 
 exports.index = async (req, res, next) => {
-  const shop = await Shop.find().select('name photo location').sort({_id:-1});
-
-  const shopWithPhotoDomain = shop.map( (shop,index) =>{
-    return{
-      id:shop._id,
-      name: shop.name,
-      photo:'http://localhost:3000/images/' + shop.photo,
-      location: shop.location
-    }
-  })
-
+  const company = await Company.find();
   res.status(200).json({
-    data: shopWithPhotoDomain,
+    data: company,
   });
 };
+
 exports.insert = async (req, res, next) => {
   const {
     name,
-    photo,
-    location: { lat, lgn },
+    address: { province },
   } = req.body;
 
-  let shop = new Shop({
+  let company = new Company({
     name: name,
-    photo: photo,
-    location: {
-      lat: lat,
-      lgn: lgn,
+    address: {
+      province: province,
     },
   });
-  await shop.save();
-
+  await company.save();
+  console.log(company);
   res.status(200).json({
     message: "เพิ่มข้อมูลเรียบร้อยแล้ว",
   });
@@ -42,15 +30,15 @@ exports.show = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const shop = await Shop.findOne({
+    const company = await Company.findOne({
       _id: id,
     });
 
-    if (!shop) {
+    if (!company) {
       throw new Error("ไม่พบข้อมูล");
     } else {
       res.status(200).json({
-        data: shop,
+        data: company,
       });
     }
   } catch (Error) {
@@ -65,11 +53,11 @@ exports.show = async (req, res, next) => {
 exports.destroy = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const shop = await Shop.deleteOne({
+    const company = await Company.deleteOne({
       _id: id,
     });
-    if (shop.deletedCount === 0) {
-      throw new Error("ไม่สามารถลบข้อมูลได้ / ไม่พบผู้ใช้งาน");
+    if (company.deletedCount === 0) {
+      throw new Error("ไม่สามารถลบข้อมูลได้ / ไม่พบข้อมูล");
     } else {
       res.status(200).json({
         message: "ลบข้อมูลเรียบร้อยแล้ว",
@@ -89,18 +77,26 @@ exports.update = async (req, res, next) => {
     const { id } = req.params;
     const {
       name,
-      photo,
-      location: { lat, lgn },
+      address: { province },
     } = req.body;
-    const shop = await Shop.updateOne(
+
+    //Find By ID
+    // const company = await Company.findById(id);
+    // company.name = name
+    // company.salary = salary
+    // await company.save()
+
+    //Find by ID and Update
+    // const company = await Company.findByIdAndUpdate(id, {
+    //     name: name,
+    //     salary: salary,
+    //     });
+
+    const company = await Company.updateOne(
       { _id: id },
       {
         name: name,
-        photo: photo,
-        location: {
-          lat: lat,
-          lgn: lgn,
-        },
+        address: { province: province },
       }
     );
     res.status(200).json({

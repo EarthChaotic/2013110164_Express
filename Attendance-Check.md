@@ -3,3 +3,4 @@ Jirapon Tresup (Earth) : เรียน Chapter 2
 Jirapon Tresup (Earth) : Chapter 3 แนะนำ  Node.JS และ Express.js 
 Jirapon Tresup (Earth) : Chapter 4 :)
 Jirapon Tresup (Earth) : Chapter 5 Advance Mongoose
+Jirpaon Tresup (Earth) : Chapter 6 Upload File  Base 64 and Google Storage

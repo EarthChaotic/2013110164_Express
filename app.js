@@ -7,7 +7,7 @@ const config = require('./config/index');
 mongoose.connect(config.MONGODB_URI,{useNewUrlParser: true, useUnifiedTopology: true})
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var userRouter = require('./routes/users');
 var companyrouter = require('./routes/company')
 var StaffRouter = require('./routes/staff')
 var shopRouter = require('./routes/shop')
@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/user', userRouter);
 app.use('/company', companyrouter)
 app.use('/staff',StaffRouter)
 app.use('/shop',shopRouter)

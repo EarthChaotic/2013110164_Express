@@ -1,4 +1,5 @@
 const User = require("../models/user")
+const {validationResult} = require('express-validator')
 
 exports.index = function (req, res, next) {
   res.status(200).json({
@@ -19,6 +20,13 @@ exports.register = async(req,res,next) =>{
 try {
   const {name , email , password} = req.body
 
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      const error = new Error("Invalid Email")
+      error.statusCode = 422;
+      error.validation = errors.array()
+      throw error;
+  }
   const existEmail = await User.findOne({ email:email })
   if(existEmail){
     const error = new Error("อีเมลถูกใช้แล้ว")

@@ -6,6 +6,7 @@ const path = require('path');
 const uuidv4 = require('uuid');
 const { promisify } = require('util')
 const writeFileAsync = promisify(fs.writeFile)
+const { validationResult } = require("express-validator");
 
 
 exports.index = async (req, res, next) => {
@@ -27,9 +28,18 @@ exports.index = async (req, res, next) => {
 
 exports.insert = async (req, res, next) => {
 
-  const {name,location,photo} = req.body
-  
-  let shop = new Shop({
+  try {
+    const { name, location, photo } = req.body;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error("ข้อมูลที่ได้รับมาไม่ถูกต้อง");
+      error.statusCode = 422;
+      error.validation = errors.array();
+      throw error;
+    }
+
+    let shop = new Shop({
       name:name,
       location:location,
       photo: await saveImageToDisk(photo) 
@@ -39,7 +49,9 @@ exports.insert = async (req, res, next) => {
       res.status(200).json({
         message:"เพิ่มข้อมูลเรียบร้อยแล้ว"
       });
-  };
+} catch (error) {
+  next(error);
+}}
 
 exports.menu = async (req,res,next) =>{
   //const menu = await Menu.find().select('+name -price');

@@ -80,7 +80,8 @@ exports.login = async(req,res,next) =>{
       }
       //create token
       const token = await jwt.sign({
-          id:user._id,role:user.role,
+          id:user._id,
+          role:user.role,
       },config.PRIVATE_KEY
       ,{expiresIn: "5 days"})
 

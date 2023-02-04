@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const userController = require('../controllers/userController')
 const { body } = require('express-validator');
+const passportJWT = require('../middleware/passportJWT');
 
 /* GET users listing. */
 router.get('/', userController.index )
@@ -15,5 +16,6 @@ router.post('/login',[body('email').not().isEmpty().withMessage("Please enter Em
 body('password').not().isEmpty().withMessage("Please enter password").isLength({min:5}).withMessage("Password must more than 5 length")
 ],userController.login)
 
+router.get('/me',[passportJWT.isLogin],userController.profile);
 
 module.exports = router;
